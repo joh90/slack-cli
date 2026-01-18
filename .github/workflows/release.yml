@@ -1,0 +1,134 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  # Run tests before building release
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: uv sync --extra dev
+
+      - name: Run linter
+        run: uv run ruff check slack_cli/
+
+      - name: Run tests
+        run: uv run pytest
+
+  build:
+    needs: test
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest      # arm64 (M1/M2/M3)
+            artifact: slack-darwin-arm64
+          - os: macos-13          # Intel x64
+            artifact: slack-darwin-amd64
+          - os: ubuntu-latest     # Linux x64
+            artifact: slack-linux-amd64
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          uv sync
+          uv pip install pyinstaller
+
+      - name: Build binary
+        run: |
+          uv run pyinstaller --onefile \
+            --name ${{ matrix.artifact }} \
+            --hidden-import slack_sdk \
+            --hidden-import click \
+            --hidden-import rich \
+            slack_cli/__main__.py
+
+      - name: Generate checksum
+        run: |
+          cd dist
+          shasum -a 256 ${{ matrix.artifact }} > ${{ matrix.artifact }}.sha256
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: |
+            dist/${{ matrix.artifact }}
+            dist/${{ matrix.artifact }}.sha256
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+
+      - name: Generate checksums summary
+        id: checksums
+        run: |
+          {
+            echo 'CHECKSUMS<<EOF'
+            echo '```'
+            cat slack-darwin-arm64/slack-darwin-arm64.sha256
+            cat slack-darwin-amd64/slack-darwin-amd64.sha256
+            cat slack-linux-amd64/slack-linux-amd64.sha256
+            echo '```'
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            slack-darwin-arm64/slack-darwin-arm64
+            slack-darwin-arm64/slack-darwin-arm64.sha256
+            slack-darwin-amd64/slack-darwin-amd64
+            slack-darwin-amd64/slack-darwin-amd64.sha256
+            slack-linux-amd64/slack-linux-amd64
+            slack-linux-amd64/slack-linux-amd64.sha256
+          body: |
+            ## Release ${{ github.ref_name }}
+
+            See [CHANGELOG.md](https://github.com/joh90/slack-cli/blob/main/CHANGELOG.md) for release notes.
+
+            ## Checksums (SHA256)
+            ${{ steps.checksums.outputs.CHECKSUMS }}
+          generate_release_notes: true
+
+  homebrew:
+    needs: release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Update Homebrew tap
+        uses: mislav/bump-homebrew-formula-action@v3
+        with:
+          formula-name: slack-cli
+          homebrew-tap: joh90/homebrew-tap
+          download-url: https://github.com/joh90/slack-cli/releases/download/${{ github.ref_name }}/slack-darwin-arm64
+        env:
+          COMMITTER_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
