@@ -21,17 +21,7 @@ Built with the official [Slack Python SDK](https://github.com/slackapi/python-sl
 
 ## Installation
 
-### From Source (Recommended)
-
-```bash
-git clone https://github.com/joh90/slack-cli.git
-cd slack-cli
-pip install -e .
-```
-
 ### Homebrew (macOS/Linux)
-
-> **TODO**: Homebrew tap not yet available.
 
 ```bash
 brew tap joh90/tap
@@ -54,6 +44,15 @@ chmod +x slack && mv slack /usr/local/bin/
 # Linux (x64)
 curl -Lo slack https://github.com/joh90/slack-cli/releases/latest/download/slack-linux-amd64
 chmod +x slack && mv slack /usr/local/bin/
+```
+
+### From Source (Development)
+
+```bash
+git clone https://github.com/joh90/slack-cli.git
+cd slack-cli
+uv sync
+uv run slack --help
 ```
 
 ## Setup
@@ -331,6 +330,10 @@ uv run pyinstaller --onefile \
 # Test binary
 ./dist/slack --version
 ```
+
+### Releasing
+
+See [RELEASE.md](RELEASE.md) for the release process and automation.
 
 ## Project Structure
 
