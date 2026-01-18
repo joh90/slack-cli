@@ -1,0 +1,42 @@
+# Tokens and secrets
+*token*
+*secret*
+.env
+slack-wrapper.sh
+
+# Build artifacts
+dist/
+build/
+*.spec
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test/Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Linting
+.ruff_cache/
+
+# uv
+.python-version
