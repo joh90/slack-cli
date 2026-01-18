@@ -50,17 +50,31 @@ git tag v0.1.0 → git push origin v0.1.0 → GitHub Actions
 
 ## Release Commands
 
-### 1. Create and Push Tag
+### 1. Update Version
+
+Update the version in `slackasme/__init__.py`:
+
+```python
+__version__ = "0.2.0"
+```
+
+Commit and push:
+
+```bash
+git add -A && git commit -m "Bump version to 0.2.0" && git push origin main
+```
+
+### 2. Create and Push Tag
 
 ```bash
 # Create tag
-git tag v0.1.0
+git tag v0.2.0
 
 # Push tag to trigger release
-git push origin v0.1.0
+git push origin v0.2.0
 ```
 
-### 2. Monitor Workflow
+### 3. Monitor Workflow
 
 ```bash
 # Watch the release workflow
@@ -70,7 +84,7 @@ gh run watch
 gh run view --web
 ```
 
-### 3. Verify Release
+### 4. Verify Release
 
 ```bash
 # Check release was created
@@ -80,7 +94,7 @@ gh release view v0.1.0
 gh release view v0.1.0 --json assets --jq '.assets[].name'
 ```
 
-### 4. Test Homebrew Installation
+### 5. Test Homebrew Installation
 
 ```bash
 # Add tap (first time only)
@@ -125,4 +139,5 @@ gh run view --log-failed
 # Re-run failed jobs
 gh run rerun <run-id> --failed
 ```
+
 
