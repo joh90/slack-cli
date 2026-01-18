@@ -3,10 +3,10 @@
 import click
 from slack_sdk.errors import SlackApiError
 
-from slack_cli.client import get_client, handle_api_error
-from slack_cli.formatters import format_search_results, format_users, output_json
-from slack_cli.logging import logger
-from slack_cli.validators import DEFAULT_LIMIT, validate_limit, validate_search_query
+from slackasme.client import get_client, handle_api_error
+from slackasme.formatters import format_search_results, format_users, output_json
+from slackasme.logging import logger
+from slackasme.validators import DEFAULT_LIMIT, validate_limit, validate_search_query
 
 
 @click.group()

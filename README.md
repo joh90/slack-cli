@@ -1,6 +1,6 @@
-# slack-cli
+# slackasme
 
-[![Tests](https://github.com/joh90/slack-cli/actions/workflows/test.yml/badge.svg)](https://github.com/joh90/slack-cli/actions/workflows/test.yml)
+[![Tests](https://github.com/joh90/slackasme/actions/workflows/test.yml/badge.svg)](https://github.com/joh90/slackasme/actions/workflows/test.yml)
 [![Coverage](https://img.shields.io/badge/coverage-83%25-brightgreen)](tests/)
 
 A command-line interface for Slack that sends messages **as yourself** (not a bot).
@@ -25,32 +25,30 @@ Built with the official [Slack Python SDK](https://github.com/slackapi/python-sl
 
 ```bash
 brew tap joh90/tap
-brew install slack-cli
+brew install slackasme
 ```
 
 ### Binary Download
 
-> **TODO**: Binaries not yet available. See [Releases](https://github.com/joh90/slack-cli/releases) when published.
-
 ```bash
 # macOS (Apple Silicon)
-curl -Lo slack https://github.com/joh90/slack-cli/releases/latest/download/slack-darwin-arm64
+curl -Lo slack https://github.com/joh90/slackasme/releases/latest/download/slack-darwin-arm64
 chmod +x slack && mv slack /usr/local/bin/
 
 # macOS (Intel)
-curl -Lo slack https://github.com/joh90/slack-cli/releases/latest/download/slack-darwin-amd64
+curl -Lo slack https://github.com/joh90/slackasme/releases/latest/download/slack-darwin-amd64
 chmod +x slack && mv slack /usr/local/bin/
 
 # Linux (x64)
-curl -Lo slack https://github.com/joh90/slack-cli/releases/latest/download/slack-linux-amd64
+curl -Lo slack https://github.com/joh90/slackasme/releases/latest/download/slack-linux-amd64
 chmod +x slack && mv slack /usr/local/bin/
 ```
 
 ### From Source (Development)
 
 ```bash
-git clone https://github.com/joh90/slack-cli.git
-cd slack-cli
+git clone https://github.com/joh90/slackasme.git
+cd slackasme
 uv sync
 uv run slack --help
 ```
@@ -100,7 +98,7 @@ Go to **OAuth & Permissions** → **User Token Scopes** and add:
 slack auth configure
 ```
 
-This stores your token securely at `~/.config/slack-cli/token` with `600` permissions.
+This stores your token securely at `~/.config/slackasme/token` with `600` permissions.
 
 **Option B: Environment variable**
 
@@ -262,8 +260,8 @@ slack --version
 
 ```bash
 # Clone repository
-git clone https://github.com/joh90/slack-cli.git
-cd slack-cli
+git clone https://github.com/joh90/slackasme.git
+cd slackasme
 
 # Install dependencies with uv
 uv sync
@@ -283,10 +281,10 @@ slack --help
 uv run pytest
 
 # Run with coverage
-uv run pytest --cov=slack_cli
+uv run pytest --cov=slackasme
 
 # Run with coverage report
-uv run pytest --cov=slack_cli --cov-report=html
+uv run pytest --cov=slackasme --cov-report=html
 
 # Run specific test file
 uv run pytest tests/test_validators.py
@@ -304,13 +302,13 @@ See [tests/README.md](tests/README.md) for testing conventions and mock patterns
 
 ```bash
 # Check for issues
-uv run ruff check slack_cli/
+uv run ruff check slackasme/
 
 # Auto-fix issues
-uv run ruff check slack_cli/ --fix
+uv run ruff check slackasme/ --fix
 
 # Format code
-uv run ruff format slack_cli/
+uv run ruff format slackasme/
 ```
 
 ### Build Binary
@@ -325,7 +323,7 @@ uv run pyinstaller --onefile \
   --hidden-import slack_sdk \
   --hidden-import click \
   --hidden-import rich \
-  slack_cli/__main__.py
+  slackasme/__main__.py
 
 # Test binary
 ./dist/slack --version
@@ -338,8 +336,8 @@ See [RELEASE.md](RELEASE.md) for the release process and automation.
 ## Project Structure
 
 ```
-slack-cli/
-├── slack_cli/
+slackasme/
+├── slackasme/
 │   ├── __init__.py          # Version
 │   ├── __main__.py           # Entry point
 │   ├── cli.py                # Main CLI (Click)

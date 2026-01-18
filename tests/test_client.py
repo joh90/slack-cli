@@ -1,6 +1,6 @@
 """Tests for client module."""
 
-from slack_cli.client import mask_token
+from slackasme.client import mask_token
 
 
 class TestMaskToken:

@@ -4,7 +4,7 @@ from unittest.mock import MagicMock, patch
 
 from click.testing import CliRunner
 
-from slack_cli.cli import cli
+from slackasme.cli import cli
 
 
 class TestSearchMessages:
@@ -34,8 +34,8 @@ class TestSearchMessages:
         }
         mock_response.get = lambda key, default=None: mock_response.data.get(key, default)
 
-        with patch("slack_cli.client.load_token", return_value="xoxp-test-token"):
-            with patch("slack_cli.client.WebClient") as mock_client:
+        with patch("slackasme.client.load_token", return_value="xoxp-test-token"):
+            with patch("slackasme.client.WebClient") as mock_client:
                 mock_client.return_value.search_messages.return_value = mock_response
 
                 result = runner.invoke(cli, ["search", "messages", "test query"])
@@ -52,8 +52,8 @@ class TestSearchMessages:
             "messages": {"total": 1, "matches": []},
         }
 
-        with patch("slack_cli.client.load_token", return_value="xoxp-test-token"):
-            with patch("slack_cli.client.WebClient") as mock_client:
+        with patch("slackasme.client.load_token", return_value="xoxp-test-token"):
+            with patch("slackasme.client.WebClient") as mock_client:
                 mock_client.return_value.search_messages.return_value = mock_response
 
                 result = runner.invoke(cli, ["search", "messages", "test", "--json"])
@@ -71,8 +71,8 @@ class TestSearchMessages:
         }
         mock_response.get = lambda key, default=None: mock_response.data.get(key, default)
 
-        with patch("slack_cli.client.load_token", return_value="xoxp-test-token"):
-            with patch("slack_cli.client.WebClient") as mock_client:
+        with patch("slackasme.client.load_token", return_value="xoxp-test-token"):
+            with patch("slackasme.client.WebClient") as mock_client:
                 mock_client.return_value.search_messages.return_value = mock_response
 
                 result = runner.invoke(cli, ["search", "messages", "nonexistent"])
@@ -109,8 +109,8 @@ class TestSearchUsers:
         }
         mock_response.__getitem__ = lambda self, key: mock_response.data[key]
 
-        with patch("slack_cli.client.load_token", return_value="xoxp-test-token"):
-            with patch("slack_cli.client.WebClient") as mock_client:
+        with patch("slackasme.client.load_token", return_value="xoxp-test-token"):
+            with patch("slackasme.client.WebClient") as mock_client:
                 mock_client.return_value.users_list.return_value = mock_response
 
                 result = runner.invoke(cli, ["search", "users", "john"])
@@ -130,8 +130,8 @@ class TestSearchUsers:
         }
         mock_response.__getitem__ = lambda self, key: mock_response.data[key]
 
-        with patch("slack_cli.client.load_token", return_value="xoxp-test-token"):
-            with patch("slack_cli.client.WebClient") as mock_client:
+        with patch("slackasme.client.load_token", return_value="xoxp-test-token"):
+            with patch("slackasme.client.WebClient") as mock_client:
                 mock_client.return_value.users_list.return_value = mock_response
 
                 result = runner.invoke(cli, ["search", "users", "john", "--json"])
@@ -146,8 +146,8 @@ class TestSearchUsers:
         mock_response.data = {"ok": True, "members": []}
         mock_response.__getitem__ = lambda self, key: mock_response.data[key]
 
-        with patch("slack_cli.client.load_token", return_value="xoxp-test-token"):
-            with patch("slack_cli.client.WebClient") as mock_client:
+        with patch("slackasme.client.load_token", return_value="xoxp-test-token"):
+            with patch("slackasme.client.WebClient") as mock_client:
                 mock_client.return_value.users_list.return_value = mock_response
 
                 result = runner.invoke(cli, ["search", "users", "nonexistent"])

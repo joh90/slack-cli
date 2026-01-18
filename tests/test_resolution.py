@@ -4,7 +4,7 @@ from unittest.mock import MagicMock, patch, call
 
 import pytest
 
-from slack_cli.utils.resolution import paginate_until, resolve_user, resolve_users
+from slackasme.utils.resolution import paginate_until, resolve_user, resolve_users
 
 
 class TestPaginateUntil:

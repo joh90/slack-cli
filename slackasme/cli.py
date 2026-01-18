@@ -3,9 +3,9 @@
 
 import click
 
-from slack_cli import __version__
-from slack_cli.commands import auth, channel, dm, file, message, reaction, search, user
-from slack_cli.logging import setup_logging
+from slackasme import __version__
+from slackasme.commands import auth, channel, dm, file, message, reaction, search, user
+from slackasme.logging import setup_logging
 
 
 @click.group()

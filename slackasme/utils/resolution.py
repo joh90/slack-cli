@@ -11,7 +11,7 @@ import re
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 
-from slack_cli.logging import logger
+from slackasme.logging import logger
 
 # Slack ID patterns (typically 9-11 chars, but can vary)
 USER_ID_PATTERN = re.compile(r"^U[A-Z0-9]{8,12}$")

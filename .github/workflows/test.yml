@@ -22,7 +22,7 @@ jobs:
         run: uv sync --extra dev
 
       - name: Run linter
-        run: uv run ruff check slack_cli/
+        run: uv run ruff check slackasme/
 
       - name: Run tests with coverage
-        run: uv run pytest --cov=slack_cli --cov-report=term-missing
+        run: uv run pytest --cov=slackasme --cov-report=term-missing

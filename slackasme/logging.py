@@ -3,7 +3,7 @@
 import logging
 import sys
 
-logger = logging.getLogger("slack_cli")
+logger = logging.getLogger("slackasme")
 
 
 def setup_logging(verbose: bool = False, debug: bool = False):

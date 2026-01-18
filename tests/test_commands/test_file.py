@@ -5,7 +5,7 @@ from unittest.mock import MagicMock, patch
 
 from click.testing import CliRunner
 
-from slack_cli.cli import cli
+from slackasme.cli import cli
 
 
 class TestFileUpload:
@@ -23,8 +23,8 @@ class TestFileUpload:
             f.write("test content")
             filepath = f.name
 
-        with patch("slack_cli.client.load_token", return_value="xoxp-test-token"):
-            with patch("slack_cli.client.WebClient") as mock_client:
+        with patch("slackasme.client.load_token", return_value="xoxp-test-token"):
+            with patch("slackasme.client.WebClient") as mock_client:
                 mock_client.return_value.files_upload_v2.return_value = mock_response
 
                 result = runner.invoke(cli, ["file", "upload", "general", filepath])
@@ -47,8 +47,8 @@ class TestFileUpload:
             f.write("test content")
             filepath = f.name
 
-        with patch("slack_cli.client.load_token", return_value="xoxp-test-token"):
-            with patch("slack_cli.client.WebClient") as mock_client:
+        with patch("slackasme.client.load_token", return_value="xoxp-test-token"):
+            with patch("slackasme.client.WebClient") as mock_client:
                 mock_client.return_value.files_upload_v2.return_value = mock_response
 
                 result = runner.invoke(
@@ -75,8 +75,8 @@ class TestFileList:
         }
         mock_response.__getitem__ = lambda self, key: mock_response.data[key]
 
-        with patch("slack_cli.client.load_token", return_value="xoxp-test-token"):
-            with patch("slack_cli.client.WebClient") as mock_client:
+        with patch("slackasme.client.load_token", return_value="xoxp-test-token"):
+            with patch("slackasme.client.WebClient") as mock_client:
                 mock_client.return_value.files_list.return_value = mock_response
 
                 result = runner.invoke(cli, ["file", "list", "general"])
@@ -92,8 +92,8 @@ class TestFileList:
             "files": [{"id": "F123", "name": "file1.txt"}],
         }
 
-        with patch("slack_cli.client.load_token", return_value="xoxp-test-token"):
-            with patch("slack_cli.client.WebClient") as mock_client:
+        with patch("slackasme.client.load_token", return_value="xoxp-test-token"):
+            with patch("slackasme.client.WebClient") as mock_client:
                 mock_client.return_value.files_list.return_value = mock_response
 
                 result = runner.invoke(cli, ["file", "list", "general", "--json"])
@@ -108,8 +108,8 @@ class TestFileList:
         mock_response.data = {"ok": True, "files": []}
         mock_response.__getitem__ = lambda self, key: mock_response.data[key]
 
-        with patch("slack_cli.client.load_token", return_value="xoxp-test-token"):
-            with patch("slack_cli.client.WebClient") as mock_client:
+        with patch("slackasme.client.load_token", return_value="xoxp-test-token"):
+            with patch("slackasme.client.WebClient") as mock_client:
                 mock_client.return_value.files_list.return_value = mock_response
 
                 result = runner.invoke(cli, ["file", "list", "general"])

@@ -5,10 +5,10 @@ import os
 import click
 from slack_sdk.errors import SlackApiError
 
-from slack_cli.client import get_client, handle_api_error
-from slack_cli.formatters import format_files, output_json
-from slack_cli.logging import logger
-from slack_cli.validators import DEFAULT_LIMIT, validate_channel, validate_file_path, validate_limit
+from slackasme.client import get_client, handle_api_error
+from slackasme.formatters import format_files, output_json
+from slackasme.logging import logger
+from slackasme.validators import DEFAULT_LIMIT, validate_channel, validate_file_path, validate_limit
 
 
 @click.group()

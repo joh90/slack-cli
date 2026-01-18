@@ -4,7 +4,7 @@ from unittest.mock import MagicMock, patch
 
 from click.testing import CliRunner
 
-from slack_cli.cli import cli
+from slackasme.cli import cli
 
 
 class TestAuthTest:
@@ -22,8 +22,8 @@ class TestAuthTest:
         }
         mock_response.__getitem__ = lambda self, key: mock_response.data[key]
 
-        with patch("slack_cli.client.load_token", return_value="xoxp-test-token"):
-            with patch("slack_cli.client.WebClient") as mock_client:
+        with patch("slackasme.client.load_token", return_value="xoxp-test-token"):
+            with patch("slackasme.client.WebClient") as mock_client:
                 mock_client.return_value.auth_test.return_value = mock_response
 
                 result = runner.invoke(cli, ["auth", "test"])
@@ -45,8 +45,8 @@ class TestAuthTest:
             "url": "https://testteam.slack.com/",
         }
 
-        with patch("slack_cli.client.load_token", return_value="xoxp-test-token"):
-            with patch("slack_cli.client.WebClient") as mock_client:
+        with patch("slackasme.client.load_token", return_value="xoxp-test-token"):
+            with patch("slackasme.client.WebClient") as mock_client:
                 mock_client.return_value.auth_test.return_value = mock_response
 
                 result = runner.invoke(cli, ["auth", "test", "--json"])
@@ -59,8 +59,8 @@ class TestAuthLogout:
     def test_logout_with_token(self):
         runner = CliRunner()
 
-        with patch("slack_cli.commands.auth.load_token", return_value="xoxp-token"):
-            with patch("slack_cli.commands.auth.delete_token") as mock_delete:
+        with patch("slackasme.commands.auth.load_token", return_value="xoxp-token"):
+            with patch("slackasme.commands.auth.delete_token") as mock_delete:
                 result = runner.invoke(cli, ["auth", "logout"])
 
                 assert result.exit_code == 0
@@ -70,7 +70,7 @@ class TestAuthLogout:
     def test_logout_no_token(self):
         runner = CliRunner()
 
-        with patch("slack_cli.commands.auth.load_token", return_value=None):
+        with patch("slackasme.commands.auth.load_token", return_value=None):
             result = runner.invoke(cli, ["auth", "logout"])
 
             assert result.exit_code == 0

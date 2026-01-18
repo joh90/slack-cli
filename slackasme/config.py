@@ -4,7 +4,7 @@ import os
 import stat
 from pathlib import Path
 
-CONFIG_DIR = Path.home() / ".config" / "slack-cli"
+CONFIG_DIR = Path.home() / ".config" / "slackasme"
 TOKEN_FILE = CONFIG_DIR / "token"
 
 

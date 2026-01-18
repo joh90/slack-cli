@@ -14,13 +14,13 @@ See [README.md](README.md) for setup, installation, and usage.
 
 | Path | Purpose |
 |------|---------|
-| `slack_cli/cli.py` | Main CLI entry point, Click groups |
-| `slack_cli/client.py` | WebClient singleton, error handling, token masking |
-| `slack_cli/config.py` | Token storage (`~/.config/slack-cli/token`) |
-| `slack_cli/commands/*.py` | One file per command group (message, channel, user, etc.) |
-| `slack_cli/utils/resolution.py` | Smart user resolution (ID/email/username) |
-| `slack_cli/validators.py` | Input validation callbacks for Click |
-| `slack_cli/formatters.py` | Rich table output, JSON output |
+| `slackasme/cli.py` | Main CLI entry point, Click groups |
+| `slackasme/client.py` | WebClient singleton, error handling, token masking |
+| `slackasme/config.py` | Token storage (`~/.config/slackasme/token`) |
+| `slackasme/commands/*.py` | One file per command group (message, channel, user, etc.) |
+| `slackasme/utils/resolution.py` | Smart user resolution (ID/email/username) |
+| `slackasme/validators.py` | Input validation callbacks for Click |
+| `slackasme/formatters.py` | Rich table output, JSON output |
 
 ### Code Patterns
 
@@ -51,7 +51,7 @@ def send(channel, text):
 ### Token Priority
 
 1. `SLACK_USER_TOKEN` environment variable (for CI, scripts, wrappers)
-2. `~/.config/slack-cli/token` file (interactive use via `slack auth configure`)
+2. `~/.config/slackasme/token` file (interactive use via `slack auth configure`)
 
 ### Validation Limits
 
@@ -76,15 +76,15 @@ def send(channel, text):
 See [tests/README.md](tests/README.md) for testing conventions, mocking patterns, and mock response examples.
 
 Key points:
-- Mock `slack_cli.client.WebClient` and `slack_cli.client.load_token`
+- Mock `slackasme.client.WebClient` and `slackasme.client.load_token`
 - Use valid-length user IDs in tests (9+ chars, e.g., `U12345678`)
 - Pagination mocks need `response_metadata.next_cursor` and `.get()` method on response
 
 ## Adding New Commands
 
-1. Create command file in `slack_cli/commands/newcmd.py`
+1. Create command file in `slackasme/commands/newcmd.py`
 2. Follow existing pattern (Click group + subcommands)
-3. Register in `slack_cli/cli.py`: `cli.add_command(newcmd.newcmd)`
+3. Register in `slackasme/cli.py`: `cli.add_command(newcmd.newcmd)`
 4. Add tests in `tests/test_commands/test_newcmd.py`
 5. Add validation callbacks in `validators.py` if needed
 
@@ -94,5 +94,5 @@ Reference: [Slack Python SDK Documentation](https://slack.dev/python-slack-sdk/)
 
 - Short user IDs (`U123`) don't match the ID pattern and fall back to slow username search
 - `conversations_history` needs channel ID, but API resolves names automatically
-- Always patch where imported (`slack_cli.client.load_token`), not where defined (`slack_cli.config.load_token`)
+- Always patch where imported (`slackasme.client.load_token`), not where defined (`slackasme.config.load_token`)
 - Global client singleton must be reset between tests (handled by `conftest.py` fixture)

@@ -1,1 +1,1 @@
-"""Tests for slack-cli."""
+"""Tests for slackasme."""

@@ -22,7 +22,7 @@ jobs:
         run: uv sync --extra dev
 
       - name: Run linter
-        run: uv run ruff check slack_cli/
+        run: uv run ruff check slackasme/
 
       - name: Run tests
         run: uv run pytest
@@ -62,7 +62,7 @@ jobs:
             --hidden-import slack_sdk \
             --hidden-import click \
             --hidden-import rich \
-            slack_cli/__main__.py
+            slackasme/__main__.py
 
       - name: Generate checksum
         run: |
@@ -127,8 +127,8 @@ jobs:
       - name: Update Homebrew tap
         uses: mislav/bump-homebrew-formula-action@v3
         with:
-          formula-name: slack-cli
+          formula-name: slackasme
           homebrew-tap: joh90/homebrew-tap
-          download-url: https://github.com/joh90/slack-cli/releases/download/${{ github.ref_name }}/slack-darwin-arm64
+          download-url: https://github.com/joh90/slackasme/releases/download/${{ github.ref_name }}/slack-darwin-arm64
         env:
           COMMITTER_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}

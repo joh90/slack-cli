@@ -3,10 +3,10 @@
 import click
 from slack_sdk.errors import SlackApiError
 
-from slack_cli.client import get_client, handle_api_error
-from slack_cli.formatters import output_json
-from slack_cli.logging import logger
-from slack_cli.validators import validate_channel, validate_emoji, validate_timestamp
+from slackasme.client import get_client, handle_api_error
+from slackasme.formatters import output_json
+from slackasme.logging import logger
+from slackasme.validators import validate_channel, validate_emoji, validate_timestamp
 
 
 @click.group()

@@ -21,7 +21,7 @@ git tag v0.1.0 → git push origin v0.1.0 → GitHub Actions
                                                │
                  ┌─────────────────────────────┼─────────────────────────────┐
                  ▼                             ▼                             ▼
-          macos-latest                    macos-13                   ubuntu-latest
+          macos-latest                 macos-15-intel                ubuntu-latest
           (ARM64 M1+)                    (Intel x86)                 (Linux x86)
                  │                             │                             │
                  └─────────────────────────────┼─────────────────────────────┘
@@ -87,9 +87,9 @@ gh release view v0.1.0 --json assets --jq '.assets[].name'
 brew tap joh90/tap
 
 # Install or upgrade
-brew install slack-cli
+brew install slackasme
 # or
-brew upgrade slack-cli
+brew upgrade slackasme
 
 # Verify
 slack --version

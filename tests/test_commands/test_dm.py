@@ -4,7 +4,7 @@ from unittest.mock import MagicMock, patch
 
 from click.testing import CliRunner
 
-from slack_cli.cli import cli
+from slackasme.cli import cli
 
 
 class TestDmOpen:
@@ -22,8 +22,8 @@ class TestDmOpen:
         }
         mock_dm_response.__getitem__ = lambda self, key: mock_dm_response.data[key]
 
-        with patch("slack_cli.client.load_token", return_value="xoxp-test-token"):
-            with patch("slack_cli.client.WebClient") as mock_client:
+        with patch("slackasme.client.load_token", return_value="xoxp-test-token"):
+            with patch("slackasme.client.WebClient") as mock_client:
                 mock_client.return_value.users_info.return_value = mock_info_response
                 mock_client.return_value.conversations_open.return_value = mock_dm_response
 
@@ -52,8 +52,8 @@ class TestDmOpen:
         }
         mock_dm_response.__getitem__ = lambda self, key: mock_dm_response.data[key]
 
-        with patch("slack_cli.client.load_token", return_value="xoxp-test-token"):
-            with patch("slack_cli.client.WebClient") as mock_client:
+        with patch("slackasme.client.load_token", return_value="xoxp-test-token"):
+            with patch("slackasme.client.WebClient") as mock_client:
                 mock_client.return_value.users_list.return_value = mock_users_response
                 mock_client.return_value.conversations_open.return_value = mock_dm_response
 
@@ -74,8 +74,8 @@ class TestDmOpen:
         mock_users_response.__getitem__ = lambda self, key: mock_users_response.data[key]
         mock_users_response.get = lambda key, default=None: mock_users_response.data.get(key, default)
 
-        with patch("slack_cli.client.load_token", return_value="xoxp-test-token"):
-            with patch("slack_cli.client.WebClient") as mock_client:
+        with patch("slackasme.client.load_token", return_value="xoxp-test-token"):
+            with patch("slackasme.client.WebClient") as mock_client:
                 mock_client.return_value.users_list.return_value = mock_users_response
 
                 result = runner.invoke(cli, ["dm", "open", "@nonexistent"])
@@ -104,8 +104,8 @@ class TestDmOpen:
         }
         mock_dm_response.__getitem__ = lambda self, key: mock_dm_response.data[key]
 
-        with patch("slack_cli.client.load_token", return_value="xoxp-test-token"):
-            with patch("slack_cli.client.WebClient") as mock_client:
+        with patch("slackasme.client.load_token", return_value="xoxp-test-token"):
+            with patch("slackasme.client.WebClient") as mock_client:
                 mock_client.return_value.users_list.return_value = mock_users_response
                 mock_client.return_value.conversations_open.return_value = mock_dm_response
 
@@ -127,8 +127,8 @@ class TestDmOpen:
         mock_users_response.__getitem__ = lambda self, key: mock_users_response.data[key]
         mock_users_response.get = lambda key, default=None: mock_users_response.data.get(key, default)
 
-        with patch("slack_cli.client.load_token", return_value="xoxp-test-token"):
-            with patch("slack_cli.client.WebClient") as mock_client:
+        with patch("slackasme.client.load_token", return_value="xoxp-test-token"):
+            with patch("slackasme.client.WebClient") as mock_client:
                 mock_client.return_value.users_list.return_value = mock_users_response
 
                 result = runner.invoke(cli, ["dm", "open", "@user1", "@nonexistent"])
@@ -148,8 +148,8 @@ class TestDmOpen:
             "channel": {"id": "D12345678", "is_im": True},
         }
 
-        with patch("slack_cli.client.load_token", return_value="xoxp-test-token"):
-            with patch("slack_cli.client.WebClient") as mock_client:
+        with patch("slackasme.client.load_token", return_value="xoxp-test-token"):
+            with patch("slackasme.client.WebClient") as mock_client:
                 mock_client.return_value.users_info.return_value = mock_info_response
                 mock_client.return_value.conversations_open.return_value = mock_dm_response
 

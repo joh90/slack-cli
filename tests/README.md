@@ -1,6 +1,6 @@
 # Tests
 
-This directory contains tests for slack-cli using pytest with mocked Slack API responses.
+This directory contains tests for slackasme using pytest with mocked Slack API responses.
 
 ## Running Tests
 
@@ -9,7 +9,7 @@ This directory contains tests for slack-cli using pytest with mocked Slack API r
 uv run pytest
 
 # Run with coverage
-uv run pytest --cov=slack_cli
+uv run pytest --cov=slackasme
 
 # Run specific test file
 uv run pytest tests/test_validators.py
@@ -47,7 +47,7 @@ All command tests follow the same pattern:
 ```python
 from unittest.mock import MagicMock, patch
 from click.testing import CliRunner
-from slack_cli.cli import cli
+from slackasme.cli import cli
 
 def test_example():
     runner = CliRunner()
@@ -58,8 +58,8 @@ def test_example():
     mock_response.__getitem__ = lambda self, key: mock_response.data[key]
 
     # 2. Patch token loading and WebClient
-    with patch("slack_cli.client.load_token", return_value="xoxp-test-token"):
-        with patch("slack_cli.client.WebClient") as mock_client:
+    with patch("slackasme.client.load_token", return_value="xoxp-test-token"):
+        with patch("slackasme.client.WebClient") as mock_client:
             # 3. Set up the mock API method response
             mock_client.return_value.chat_postMessage.return_value = mock_response
 
@@ -75,13 +75,13 @@ def test_example():
 
 | Concept | Implementation |
 |---------|----------------|
-| Mock token | `patch("slack_cli.client.load_token", return_value="xoxp-...")` |
-| Mock Slack SDK | `patch("slack_cli.client.WebClient")` |
+| Mock token | `patch("slackasme.client.load_token", return_value="xoxp-...")` |
+| Mock Slack SDK | `patch("slackasme.client.WebClient")` |
 | Set API response | `mock_client.return_value.<method>.return_value = response` |
 | Simulate error | `mock_client.return_value.<method>.side_effect = SlackApiError(...)` |
 | Dict access | `mock_response.__getitem__ = lambda self, key: data[key]` |
 
-**Important:** Patch where it's **used** (`slack_cli.client.load_token`), not where it's **defined** (`slack_cli.config.load_token`).
+**Important:** Patch where it's **used** (`slackasme.client.load_token`), not where it's **defined** (`slackasme.config.load_token`).
 
 ## Mock Response Examples
 
@@ -294,11 +294,11 @@ Config tests mock file paths using pytest's `tmp_path` fixture:
 
 ```python
 def test_saves_token(self, tmp_path):
-    config_dir = tmp_path / ".config" / "slack-cli"
+    config_dir = tmp_path / ".config" / "slackasme"
     token_file = config_dir / "token"
 
-    with patch("slack_cli.config.CONFIG_DIR", config_dir):
-        with patch("slack_cli.config.TOKEN_FILE", token_file):
+    with patch("slackasme.config.CONFIG_DIR", config_dir):
+        with patch("slackasme.config.TOKEN_FILE", token_file):
             save_token("xoxp-test-token")
 
             assert token_file.read_text() == "xoxp-test-token"
@@ -315,10 +315,10 @@ def cli_runner():
 @pytest.fixture(autouse=True)
 def reset_client_fixture():
     """Reset the global client before/after each test."""
-    import slack_cli.client
-    slack_cli.client._client = None
+    import slackasme.client
+    slackasme.client._client = None
     yield
-    slack_cli.client._client = None
+    slackasme.client._client = None
 ```
 
 The `reset_client_fixture` is `autouse=True` so it runs for every test automatically, ensuring the global client singleton doesn't leak between tests.

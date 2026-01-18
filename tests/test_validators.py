@@ -6,7 +6,7 @@ import tempfile
 import click
 import pytest
 
-from slack_cli.validators import (
+from slackasme.validators import (
     validate_channel,
     validate_emoji,
     validate_file_path,

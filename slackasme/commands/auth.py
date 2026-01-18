@@ -4,10 +4,10 @@ import click
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 
-from slack_cli.client import get_client, handle_api_error, mask_token
-from slack_cli.config import delete_token, load_token, save_token
-from slack_cli.formatters import output_json
-from slack_cli.logging import logger
+from slackasme.client import get_client, handle_api_error, mask_token
+from slackasme.config import delete_token, load_token, save_token
+from slackasme.formatters import output_json
+from slackasme.logging import logger
 
 
 @click.group()
@@ -45,7 +45,7 @@ def test(as_json):
 def configure():
     """Configure Slack token interactively.
 
-    The token will be stored securely in ~/.config/slack-cli/token
+    The token will be stored securely in ~/.config/slackasme/token
     with 600 permissions (owner read/write only).
 
     Examples:
@@ -82,7 +82,7 @@ def configure():
     # Save token
     save_token(token)
     click.echo()
-    click.echo("Token saved to ~/.config/slack-cli/token")
+    click.echo("Token saved to ~/.config/slackasme/token")
     click.echo("You can now use: slack message send general 'Hello!'")
 
 

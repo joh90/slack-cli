@@ -5,7 +5,7 @@ from unittest.mock import MagicMock, patch
 from click.testing import CliRunner
 from slack_sdk.errors import SlackApiError
 
-from slack_cli.cli import cli
+from slackasme.cli import cli
 
 
 class TestReactionAdd:
@@ -15,8 +15,8 @@ class TestReactionAdd:
         mock_response = MagicMock()
         mock_response.data = {"ok": True}
 
-        with patch("slack_cli.client.load_token", return_value="xoxp-test-token"):
-            with patch("slack_cli.client.WebClient") as mock_client:
+        with patch("slackasme.client.load_token", return_value="xoxp-test-token"):
+            with patch("slackasme.client.WebClient") as mock_client:
                 mock_client.return_value.reactions_add.return_value = mock_response
 
                 result = runner.invoke(
@@ -34,8 +34,8 @@ class TestReactionAdd:
 
         error = SlackApiError("already_reacted", mock_response)
 
-        with patch("slack_cli.client.load_token", return_value="xoxp-test-token"):
-            with patch("slack_cli.client.WebClient") as mock_client:
+        with patch("slackasme.client.load_token", return_value="xoxp-test-token"):
+            with patch("slackasme.client.WebClient") as mock_client:
                 mock_client.return_value.reactions_add.side_effect = error
 
                 result = runner.invoke(
@@ -53,8 +53,8 @@ class TestReactionRemove:
         mock_response = MagicMock()
         mock_response.data = {"ok": True}
 
-        with patch("slack_cli.client.load_token", return_value="xoxp-test-token"):
-            with patch("slack_cli.client.WebClient") as mock_client:
+        with patch("slackasme.client.load_token", return_value="xoxp-test-token"):
+            with patch("slackasme.client.WebClient") as mock_client:
                 mock_client.return_value.reactions_remove.return_value = mock_response
 
                 result = runner.invoke(
@@ -72,8 +72,8 @@ class TestReactionRemove:
 
         error = SlackApiError("no_reaction", mock_response)
 
-        with patch("slack_cli.client.load_token", return_value="xoxp-test-token"):
-            with patch("slack_cli.client.WebClient") as mock_client:
+        with patch("slackasme.client.load_token", return_value="xoxp-test-token"):
+            with patch("slackasme.client.WebClient") as mock_client:
                 mock_client.return_value.reactions_remove.side_effect = error
 
                 result = runner.invoke(

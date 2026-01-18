@@ -1,5 +1,5 @@
 [project]
-name = "slack-cli"
+name = "slackasme"
 dynamic = ["version"]
 description = "Slack CLI - interact with Slack as yourself"
 readme = "README.md"
@@ -19,14 +19,14 @@ dev = [
 ]
 
 [project.scripts]
-slack = "slack_cli.cli:cli"
+slack = "slackasme.cli:cli"
 
 [build-system]
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.dynamic]
-version = {attr = "slack_cli.__version__"}
+version = {attr = "slackasme.__version__"}
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

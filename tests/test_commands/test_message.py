@@ -4,7 +4,7 @@ from unittest.mock import MagicMock, patch
 
 from click.testing import CliRunner
 
-from slack_cli.cli import cli
+from slackasme.cli import cli
 
 
 class TestMessageSend:
@@ -15,8 +15,8 @@ class TestMessageSend:
         mock_response.data = {"ok": True, "ts": "1234567890.123456"}
         mock_response.__getitem__ = lambda self, key: mock_response.data[key]
 
-        with patch("slack_cli.client.load_token", return_value="xoxp-test-token"):
-            with patch("slack_cli.client.WebClient") as mock_client:
+        with patch("slackasme.client.load_token", return_value="xoxp-test-token"):
+            with patch("slackasme.client.WebClient") as mock_client:
                 mock_client.return_value.chat_postMessage.return_value = mock_response
 
                 result = runner.invoke(cli, ["message", "send", "general", "Hello!"])
@@ -31,8 +31,8 @@ class TestMessageSend:
         mock_response.data = {"ok": True, "ts": "1234567890.654321"}
         mock_response.__getitem__ = lambda self, key: mock_response.data[key]
 
-        with patch("slack_cli.client.load_token", return_value="xoxp-test-token"):
-            with patch("slack_cli.client.WebClient") as mock_client:
+        with patch("slackasme.client.load_token", return_value="xoxp-test-token"):
+            with patch("slackasme.client.WebClient") as mock_client:
                 mock_client.return_value.chat_postMessage.return_value = mock_response
 
                 result = runner.invoke(
@@ -62,8 +62,8 @@ class TestMessageList:
         }
         mock_response.__getitem__ = lambda self, key: mock_response.data[key]
 
-        with patch("slack_cli.client.load_token", return_value="xoxp-test-token"):
-            with patch("slack_cli.client.WebClient") as mock_client:
+        with patch("slackasme.client.load_token", return_value="xoxp-test-token"):
+            with patch("slackasme.client.WebClient") as mock_client:
                 mock_client.return_value.conversations_history.return_value = mock_response
 
                 result = runner.invoke(cli, ["message", "list", "general"])
@@ -81,8 +81,8 @@ class TestMessageList:
             ],
         }
 
-        with patch("slack_cli.client.load_token", return_value="xoxp-test-token"):
-            with patch("slack_cli.client.WebClient") as mock_client:
+        with patch("slackasme.client.load_token", return_value="xoxp-test-token"):
+            with patch("slackasme.client.WebClient") as mock_client:
                 mock_client.return_value.conversations_history.return_value = mock_response
 
                 result = runner.invoke(cli, ["message", "list", "general", "--json"])
@@ -99,8 +99,8 @@ class TestMessageDelete:
         mock_response.data = {"ok": True}
         mock_response.__getitem__ = lambda self, key: mock_response.data[key]
 
-        with patch("slack_cli.client.load_token", return_value="xoxp-test-token"):
-            with patch("slack_cli.client.WebClient") as mock_client:
+        with patch("slackasme.client.load_token", return_value="xoxp-test-token"):
+            with patch("slackasme.client.WebClient") as mock_client:
                 mock_client.return_value.chat_delete.return_value = mock_response
 
                 result = runner.invoke(

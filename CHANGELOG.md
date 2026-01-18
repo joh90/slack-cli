@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-01-18
+
+### Changed
+
+- **BREAKING**: Rename project from `slack-cli` to `slackasme` to avoid namespace conflict with Slack's official CLI
+- **BREAKING**: Config path changed from `~/.config/slack-cli/` to `~/.config/slackasme/`
+- Homebrew formula renamed: `brew install slackasme`
+- GitHub repo renamed: `joh90/slackasme`
+
 ## [0.1.0] - 2026-01-18
 
 ### Added
@@ -23,7 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Smart user resolution (ID, email, or username)
 - JSON output (`--json` flag) for scripting
 - Verbose/debug logging (`--verbose`, `--debug`)
-- Secure token storage (`~/.config/slack-cli/token` with 600 permissions)
+- Secure token storage (`~/.config/slackasme/token` with 600 permissions)
 - Token masking in error output
 - Rate limit handling via SDK retry handler
 - Input validation for all commands
@@ -36,5 +45,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - File path validation (exists, size limit, no traversal)
 - Token masking in all error output
 
-[Unreleased]: https://github.com/joh90/slack-cli/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/joh90/slack-cli/releases/tag/v0.1.0
+[Unreleased]: https://github.com/joh90/slackasme/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/joh90/slackasme/compare/v0.1.0...v0.2.0
+[0.1.0]: https://github.com/joh90/slackasme/releases/tag/v0.1.0

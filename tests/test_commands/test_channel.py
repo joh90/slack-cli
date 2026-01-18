@@ -4,7 +4,7 @@ from unittest.mock import MagicMock, patch
 
 from click.testing import CliRunner
 
-from slack_cli.cli import cli
+from slackasme.cli import cli
 
 
 class TestChannelList:
@@ -23,8 +23,8 @@ class TestChannelList:
         mock_response.__getitem__ = lambda self, key: mock_response.data[key]
         mock_response.get = lambda key, default=None: mock_response.data.get(key, default)
 
-        with patch("slack_cli.client.load_token", return_value="xoxp-test-token"):
-            with patch("slack_cli.client.WebClient") as mock_client:
+        with patch("slackasme.client.load_token", return_value="xoxp-test-token"):
+            with patch("slackasme.client.WebClient") as mock_client:
                 mock_client.return_value.conversations_list.return_value = mock_response
 
                 result = runner.invoke(cli, ["channel", "list"])
@@ -43,8 +43,8 @@ class TestChannelList:
         mock_response.__getitem__ = lambda self, key: mock_response.data[key]
         mock_response.get = lambda key, default=None: mock_response.data.get(key, default)
 
-        with patch("slack_cli.client.load_token", return_value="xoxp-test-token"):
-            with patch("slack_cli.client.WebClient") as mock_client:
+        with patch("slackasme.client.load_token", return_value="xoxp-test-token"):
+            with patch("slackasme.client.WebClient") as mock_client:
                 mock_client.return_value.conversations_list.return_value = mock_response
 
                 result = runner.invoke(cli, ["channel", "list", "--type", "private"])
@@ -73,8 +73,8 @@ class TestChannelInfo:
         }
         mock_response.__getitem__ = lambda self, key: mock_response.data[key]
 
-        with patch("slack_cli.client.load_token", return_value="xoxp-test-token"):
-            with patch("slack_cli.client.WebClient") as mock_client:
+        with patch("slackasme.client.load_token", return_value="xoxp-test-token"):
+            with patch("slackasme.client.WebClient") as mock_client:
                 mock_client.return_value.conversations_info.return_value = mock_response
 
                 result = runner.invoke(cli, ["channel", "info", "general"])
