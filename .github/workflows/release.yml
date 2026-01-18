@@ -113,7 +113,7 @@ jobs:
           body: |
             ## Release ${{ github.ref_name }}
 
-            See [CHANGELOG.md](https://github.com/joh90/slack-cli/blob/main/CHANGELOG.md) for release notes.
+            See [CHANGELOG.md](https://github.com/joh90/slackasme/blob/main/CHANGELOG.md) for release notes.
 
             ## Checksums (SHA256)
             ${{ steps.checksums.outputs.CHECKSUMS }}
@@ -124,12 +124,41 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Update Homebrew tap
-        uses: mislav/bump-homebrew-formula-action@v3
+      - name: Checkout homebrew-tap
+        uses: actions/checkout@v4
         with:
-          formula-name: slackasme
-          homebrew-tap: joh90/homebrew-tap
-          download-url: https://github.com/joh90/slackasme/releases/download/${{ github.ref_name }}/slack-darwin-arm64
-          push-to: main
-        env:
-          COMMITTER_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+          repository: joh90/homebrew-tap
+          token: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+
+      - name: Update formula
+        run: |
+          # Fetch SHA256s from release
+          ARM64_SHA=$(curl -sL https://github.com/joh90/slackasme/releases/download/${{ github.ref_name }}/slack-darwin-arm64.sha256 | awk '{print $1}')
+          AMD64_SHA=$(curl -sL https://github.com/joh90/slackasme/releases/download/${{ github.ref_name }}/slack-darwin-amd64.sha256 | awk '{print $1}')
+          LINUX_SHA=$(curl -sL https://github.com/joh90/slackasme/releases/download/${{ github.ref_name }}/slack-linux-amd64.sha256 | awk '{print $1}')
+          VERSION="${{ github.ref_name }}"
+          VERSION="${VERSION#v}"
+
+          echo "Updating formula to version $VERSION"
+          echo "ARM64 SHA: $ARM64_SHA"
+          echo "AMD64 SHA: $AMD64_SHA"
+          echo "LINUX SHA: $LINUX_SHA"
+
+          # Update version
+          sed -i "s/version \".*\"/version \"$VERSION\"/" Formula/slackasme.rb
+
+          # Update SHA256s (find URL line, replace sha256 on next line)
+          sed -i "/slack-darwin-arm64\"$/{n;s/sha256 \".*\"/sha256 \"$ARM64_SHA\"/}" Formula/slackasme.rb
+          sed -i "/slack-darwin-amd64\"$/{n;s/sha256 \".*\"/sha256 \"$AMD64_SHA\"/}" Formula/slackasme.rb
+          sed -i "/slack-linux-amd64\"$/{n;s/sha256 \".*\"/sha256 \"$LINUX_SHA\"/}" Formula/slackasme.rb
+
+          echo "Updated formula:"
+          cat Formula/slackasme.rb
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Formula/slackasme.rb
+          git diff --staged --quiet || git commit -m "slackasme ${{ github.ref_name }}"
+          git push
