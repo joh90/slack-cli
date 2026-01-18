@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-01-18
+
+### Changed
+
+- Rename release artifacts from `slack-*` to `slackasme-*` for consistency
+- Command name changed from `slack` to `slackasme`
+- Custom homebrew update script for multi-platform formula
+
 ## [0.2.0] - 2026-01-18
 
 ### Changed
@@ -45,6 +53,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - File path validation (exists, size limit, no traversal)
 - Token masking in all error output
 
-[Unreleased]: https://github.com/joh90/slackasme/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/joh90/slackasme/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/joh90/slackasme/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/joh90/slackasme/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/joh90/slackasme/releases/tag/v0.1.0
